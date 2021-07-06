@@ -21,6 +21,12 @@
 #define RADIO_DIO0 17
 #define RADIO_DIO1 16
 #define RADIO_RST 4
+#elif defined(ARDUINO_ARCH_AVR)
+/* AVR type microcontrollers */
+#define RADIO_NSS 10
+#define RADIO_DIO0 3
+#define RADIO_DIO1 4
+#define RADIO_RST 5
 #else 
 /* for all others (STM32, etc), use Arduino pin name descriptions */
 #define RADIO_NSS D10
