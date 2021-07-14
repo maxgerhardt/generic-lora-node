@@ -14,7 +14,7 @@ const CommandHandler CommandExecutor::m_handler_table[] = {
     {"set_rx2_sf", &CommandExecutor::HandleSetRX2SF, "Sets the SF in RX2", "(sf)"},
     {"set_abp_keys", &CommandExecutor::HandleSetABPKeys, "Sets the keys for Activation by Personalization", "(devaddr) (appskey) (nwskey)"},
     {"set_otaa_keys", &CommandExecutor::HandleSetOTAAKeys, "Sets the keys for Over-the-Air Activation", "(appeui) (deveui) (appkey)"},
-    {"set_opmode", &CommandExecutor::HandleSetOpMode, "Sets the to be used activation method", "(0=None/1=LoRaWAN/2=LoRa)"},
+    {"set_opmode", &CommandExecutor::HandleSetOpMode, "Sets the to be used operation mode", "(0=None/1=LoRaWAN/2=LoRa)"},
     {"set_activation_method", &CommandExecutor::HandleSetActivationMethod, "Sets the to be used activation method", "(0=None/1=ABP/2=OTAA)"},
     {"set_framecnt_up", &CommandExecutor::HandleFramecounterUp, "Sets the uplink framecounter", "(num)"},
     {"set_framecnt_down", &CommandExecutor::HandleFramecounterDown, "Sets the downlink framecounter", "(num)"},
