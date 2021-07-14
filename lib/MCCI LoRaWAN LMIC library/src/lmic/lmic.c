@@ -52,6 +52,8 @@ static void startScan (void);
 
 /* convenience hex print function define in firmware, PrintForLMIC.cpp */
 void Arduino_PrintHex(const char* name, const void* data, size_t len);
+//internal variable
+int lmic_devnonce_choice = -1;
 
 // set the txrxFlags, with debugging
 static inline void initTxrxFlags(const char *func, u1_t mask) {
@@ -2779,8 +2781,6 @@ void LMIC_shutdown (void) {
     os_radio(RADIO_RST);
     LMIC.opmode |= OP_SHUTDOWN;
 }
-
-int lmic_devnonce_choice = -1;
 
 // reset the LMIC. This is called at startup; the clear of LMIC.osjob
 // only works because the LMIC is guaranteed to be zero in that case.
