@@ -1633,7 +1633,7 @@ static bit_t processJoinAccept (void) {
     Arduino_PrintHex("NETID", &LMIC.netid, sizeof(LMIC.netid));
     Arduino_PrintHex("DEVADDR", &LMIC.frame[OFF_JA_DEVADDR],4);
     LMIC_DEBUG_PRINTF("Will compute session keys using..\n");
-    LMIC_DEBUG_PRINTF("DevNonce-1 = %d\n", (int)(int16_t)(LMIC.devNonce-1));
+    LMIC_DEBUG_PRINTF("DevNonce-1 = %d\n", (int)(uint16_t)(LMIC.devNonce-1));
     Arduino_PrintHex("ARTNONCE", &LMIC.frame[OFF_JA_ARTNONCE], 8);
     Arduino_PrintHex("NWKKEY", LMIC.nwkKey, sizeof(LMIC.nwkKey));
     Arduino_PrintHex("ARTKEY", LMIC.artKey, sizeof(LMIC.artKey));
