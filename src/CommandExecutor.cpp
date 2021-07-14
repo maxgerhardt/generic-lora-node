@@ -143,7 +143,6 @@ void CommandExecutor::HandleHelp(ArgumentList& args) {
         //update this is if longer commands exist
         const int target_length = 45;
         int num_spaces = (target_length - left_col_len);
-        int num_spaces_saved = num_spaces;
         if(num_spaces < 0) num_spaces = 0;
         while(num_spaces--) m_userinput->print(' ');
         m_userinput->println(m_handler_table[i].help_description);
