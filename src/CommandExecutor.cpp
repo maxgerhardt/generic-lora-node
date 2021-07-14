@@ -617,6 +617,10 @@ void CommandExecutor::HandleSetOTAADevNonce(ArgumentList& args) {
         do_save = m_userinput->askForNumber("Enter the OTAA device nonce to use (-1 for random or constant value)", otaa_dev_nonnce);
     } 
     if(do_save) {
+        if(otaa_dev_nonnce < -1 || otaa_dev_nonnce > 65535) {
+            m_userinput->println("Error, device nonce must either be -1 or a 16-bit integer (0-65535)), was \"" + String(otaa_dev_nonnce) + "\".");
+            return;
+        }
         m_userinput->println("Setting new device nonce choice: " + (otaa_dev_nonnce == -1 ? String("random")  : StringHelper::toFixedLenHexNumber(otaa_dev_nonnce)));
         cfg.devnonce_choice = otaa_dev_nonnce;
         ConfigManager::SaveConfig(cfg);
