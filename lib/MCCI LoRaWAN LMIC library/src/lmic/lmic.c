@@ -50,6 +50,9 @@ static bit_t processJoinAccept_nojoinframe(void);
 static void startScan (void);
 #endif
 
+/* convenience hex print function define in firmware, PrintForLMIC.cpp */
+void Arduino_PrintHex(const char* name, const uint8_t* data, size_t len);
+
 // set the txrxFlags, with debugging
 static inline void initTxrxFlags(const char *func, u1_t mask) {
 	LMIC_DEBUG2_PARAMETER(func);
@@ -64,7 +67,6 @@ static inline void initTxrxFlags(const char *func, u1_t mask) {
 static inline void orTxrxFlags(const char *func, u1_t mask) {
 	initTxrxFlags(func, LMIC.txrxFlags | mask);
 }
-
 
 
 // ================================================================================
@@ -2110,6 +2112,13 @@ static void buildJoinRequest (u1_t ftype) {
     os_getDevEui(d + OFF_JR_DEVEUI);
     os_wlsbf2(d + OFF_JR_DEVNONCE, LMIC.devNonce);
     aes_appendMic0(d, OFF_JR_MIC);
+
+    /* LMIC request is constructed here. print the data we get */
+    LMIC_DEBUG_PRINTF("%"LMIC_PRId_ostime_t": OTAA join request is built, data is:\n", os_getTime());
+    Arduino_PrintHex("ARTEUI", d + OFF_JR_ARTEUI, 8);
+    Arduino_PrintHex("DEVEUI", d + OFF_JR_DEVEUI, 8);
+    LMIC_DEBUG_PRINTF("DEVNONCE: %d\n", (int)LMIC.devNonce);
+    //Arduino_PrintHex("DEVNONCE", d + OFF_JR_DEVNONCE, 2);
 
     EV(joininfo,INFO,(e_.deveui  = MAIN::CDEV->getEui(),
                       e_.arteui  = MAIN::CDEV->getArtEui(),
