@@ -104,6 +104,7 @@ bool ConfigManager::EraseConfig()
     cfg.lora_tx_power = 14;
     cfg.lora_last_sf = 9;
     cfg.lorawan_rx2_sf = 9;
+    cfg.devnonce_choice = -1; //set devnonce choice to random
     return SaveConfig(cfg, false);
 }
 
