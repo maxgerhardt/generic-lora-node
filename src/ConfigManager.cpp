@@ -135,7 +135,7 @@ void ConfigManager::PrintConfig(GenericNodeConfig &cfg, Stream &stream)
     stream.println("LoRaWAN Framecnt. Up:\t" + String(cfg.lorawan_framecnt_up));
     stream.println("LoRaWAN Framecnt. Down:\t" + String(cfg.lorawan_framecnt_down));
     stream.println("LoRaWAN ADR On:\t\t" + String(cfg.lorawan_adr_enabled ? "true" : "false"));
-    stream.println("LoRaWAN OTAA DevNonce:\t\t" + (cfg.devnonce_choice == -1 ? String("random") : StringHelper::toFixedLenHexNumber(cfg.devnonce_choice)));
+    stream.println("LoRaWAN OTAA DevNonce:\t" + (cfg.devnonce_choice == -1 ? String("random") : StringHelper::toFixedLenHexNumber(cfg.devnonce_choice)));
     stream.println("LoRa TX SF:\t\t" + ((cfg.lora_last_sf >= 7 && cfg.lora_last_sf <= 12) ? (String("SF") + String(cfg.lora_last_sf)) : String("not selected")));
     stream.println("LoRa RX2 SF:\t\t" + ((cfg.lorawan_rx2_sf >= 7 && cfg.lorawan_rx2_sf <= 12) ? (String("SF") + String(cfg.lorawan_rx2_sf)) : String("not selected")));
     stream.println("LoRa TX Power:\t\t" + String(cfg.lora_tx_power) + " dbM");

@@ -18,7 +18,7 @@ const CommandHandler CommandExecutor::m_handler_table[] = {
     {"set_activation_method", &CommandExecutor::HandleSetActivationMethod, "Sets the to be used activation method", "(0=None/1=ABP/2=OTAA)"},
     {"set_framecnt_up", &CommandExecutor::HandleFramecounterUp, "Sets the uplink framecounter", "(num)"},
     {"set_framecnt_down", &CommandExecutor::HandleFramecounterDown, "Sets the downlink framecounter", "(num)"},
-    {"set_otaa_devnonce", &CommandExecutor::HandleSetOTAADevNonce, "Sets the OTAA DevNonce used during join", "(-1 for random or constant)"},
+    {"set_otaa_devnonce", &CommandExecutor::HandleSetOTAADevNonce, "Sets the OTAA DevNonce used during join", "(-1=random or constant)"},
     {"join", &CommandExecutor::HandleStartOTAA, "Starts the OTAA join procedure"},
     {"disconnect", &CommandExecutor::HandleDisconnectOTAA, "Disconnects a device that joined via OTAA for re-joining (with different keys)"},
     {"lorawan_send", &CommandExecutor::HandleLoRaWANSend, "Sends a payload via LoRaWAN", "(fport) (data) (conf.)"},
@@ -621,7 +621,7 @@ void CommandExecutor::HandleSetOTAADevNonce(ArgumentList& args) {
             m_userinput->println("Error, device nonce must either be -1 or a 16-bit integer (0-65535)), was \"" + String(otaa_dev_nonnce) + "\".");
             return;
         }
-        m_userinput->println("Setting new device nonce choice: " + (otaa_dev_nonnce == -1 ? String("random")  : StringHelper::toFixedLenHexNumber(otaa_dev_nonnce)));
+        m_userinput->println("Setting new device nonce choice: " + (otaa_dev_nonnce == -1 ? String("random")  : String(otaa_dev_nonnce)));
         cfg.devnonce_choice = otaa_dev_nonnce;
         ConfigManager::SaveConfig(cfg);
         ReloadLoRaConfig();
