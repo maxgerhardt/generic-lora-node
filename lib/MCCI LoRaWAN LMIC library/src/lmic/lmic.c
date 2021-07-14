@@ -51,7 +51,7 @@ static void startScan (void);
 #endif
 
 /* convenience hex print function define in firmware, PrintForLMIC.cpp */
-void Arduino_PrintHex(const char* name, const uint8_t* data, size_t len);
+void Arduino_PrintHex(const char* name, const void* data, size_t len);
 
 // set the txrxFlags, with debugging
 static inline void initTxrxFlags(const char *func, u1_t mask) {
@@ -1627,6 +1627,16 @@ static bit_t processJoinAccept (void) {
     if (dlen == LEN_JAEXT) {
         LMICbandplan_processJoinAcceptCFList();
     }
+
+    LMIC_DEBUG_PRINTF("Receieved JOIN ACCEPT message, printing details.\n");
+    Arduino_PrintHex("ARTNONCE", &LMIC.frame[OFF_JA_ARTNONCE], 8);
+    Arduino_PrintHex("NETID", &LMIC.netid, sizeof(LMIC.netid));
+    Arduino_PrintHex("DEVADDR", &LMIC.frame[OFF_JA_DEVADDR],4);
+    LMIC_DEBUG_PRINTF("Will compute session keys using..\n");
+    LMIC_DEBUG_PRINTF("DevNonce-1 = %d\n", (int)(int16_t)(LMIC.devNonce-1));
+    Arduino_PrintHex("ARTNONCE", &LMIC.frame[OFF_JA_ARTNONCE], 8);
+    Arduino_PrintHex("NWKKEY", LMIC.nwkKey, sizeof(LMIC.nwkKey));
+    Arduino_PrintHex("ARTKEY", LMIC.artKey, sizeof(LMIC.artKey));
 
     // already incremented when JOIN REQ got sent off
     aes_sessKeys(LMIC.devNonce-1, &LMIC.frame[OFF_JA_ARTNONCE], LMIC.nwkKey, LMIC.artKey);

@@ -16,9 +16,9 @@ extern "C" void Arduino_Println(const char *fmt, ...)
     va_end(vl);
 }
 
-extern "C" void Arduino_PrintHex(const char* name, const uint8_t* data, size_t len)
+extern "C" void Arduino_PrintHex(const char* name, const void* data, size_t len)
 {
     userInput.print(name);
     userInput.print(": ");
-    userInput.println(StringHelper::toHexString(data, len, true));
+    userInput.println(StringHelper::toHexString((const uint8_t*)data, len, true));
 }
