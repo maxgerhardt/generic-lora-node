@@ -1639,7 +1639,8 @@ static bit_t processJoinAccept (void) {
     Arduino_PrintHex("ARTKEY", LMIC.artKey, sizeof(LMIC.artKey));
 
     // already incremented when JOIN REQ got sent off
-    aes_sessKeys(LMIC.devNonce-1, &LMIC.frame[OFF_JA_ARTNONCE], LMIC.nwkKey, LMIC.artKey);
+    //special case to make it work if mode is set to constant. in the constant case, we did not increment devNonce.
+    aes_sessKeys(lmic_devnonce_choice == -1 ? (LMIC.devNonce-1) : LMIC.devNonce, &LMIC.frame[OFF_JA_ARTNONCE], LMIC.nwkKey, LMIC.artKey);
     DO_DEVDB(LMIC.netid,   netid);
     DO_DEVDB(LMIC.devaddr, devaddr);
     DO_DEVDB(LMIC.nwkKey,  nwkkey);
@@ -2139,7 +2140,10 @@ static void buildJoinRequest (u1_t ftype) {
                                     ? EV::joininfo_t::REJOIN_REQUEST
                                     : EV::joininfo_t::REQUEST)));
     LMIC.dataLen = LEN_JR;
-    LMIC.devNonce++;
+    //let devNonce stay constant
+    if(lmic_devnonce_choice != -1) {
+        LMIC.devNonce++;
+    }
     DO_DEVDB(LMIC.devNonce,devNonce);
 }
 
