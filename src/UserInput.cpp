@@ -92,6 +92,24 @@ bool UserInput::askForNumber(String &&question, int &answer, QuestionFlags flags
     return read_ok;    
 }
 
+bool UserInput::askForLongNumber(String &&question, long &answer, QuestionFlags flags, int timeout) {
+    String strAnswer;
+    bool read_ok = false;
+    do
+    {
+        read_ok = askForString(question, strAnswer, flags, timeout);
+        if(!read_ok) {
+            /* timeout */
+        } else {
+            read_ok = StringHelper::TryParseLong(strAnswer, answer);
+            if(!read_ok) {
+                m_stream->println("Answer \"" + strAnswer + "\" is not a number..");
+            }
+        }
+    } while (!read_ok && (flags & ASK_AGAIN_ON_FAILURE) != 0);
+    return read_ok;    
+}
+
 bool UserInput::askForNumberBetween(String &&question, int &answer, int start_inclusive, int end_inclusive, QuestionFlags flags, int timeout) {
     String strAnswer;
     bool read_ok = false;

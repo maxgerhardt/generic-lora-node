@@ -6,6 +6,9 @@
 TXSettings LoRaWANManager::last_tx = {};
 osjob_t LoRaWANManager::repeat_job;
 
+/* reference 'secret' LMIC stack variable */
+extern "C" int lmic_devnonce_choice;
+
 bool LoRaWANManager::Init(GenericNodeConfig& cfg) {
     os_init();
     LMIC_reset();
@@ -90,6 +93,8 @@ void LoRaWANManager::ApplyLoRaWANConfig(GenericNodeConfig& cfg) {
     // set sequnce numbers
     LMIC.seqnoUp = cfg.lorawan_framecnt_up;
     LMIC.seqnoDn = cfg.lorawan_framecnt_down;
+    //set devnonce choice
+    lmic_devnonce_choice = cfg.devnonce_choice;
 }
 
 u1_t LoRaWANManager::ConvertSFIntoLMICDr(int sf) {

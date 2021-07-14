@@ -2757,6 +2757,8 @@ void LMIC_shutdown (void) {
     LMIC.opmode |= OP_SHUTDOWN;
 }
 
+int lmic_devnonce_choice = -1;
+
 // reset the LMIC. This is called at startup; the clear of LMIC.osjob
 // only works because the LMIC is guaranteed to be zero in that case.
 // But it's also called at frame-count rollover; in that case we have
@@ -2778,7 +2780,12 @@ void LMIC_reset (void) {
     } while (0);
 
     // LMIC.devaddr      =  0;      // true from os_clearMem().
-    LMIC.devNonce     =  os_getRndU2();
+    // dev nonce is chosen here!
+    if(lmic_devnonce_choice == -1) {
+        LMIC.devNonce     =  os_getRndU2();
+    } else {
+        LMIC.devNonce     =  (uint16_t) lmic_devnonce_choice;
+    }
     LMIC.opmode       =  OP_NONE;
     LMIC.errcr        =  CR_4_5;
     LMIC.adrEnabled   =  FCT_ADREN;

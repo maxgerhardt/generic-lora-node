@@ -105,6 +105,21 @@ bool StringHelper::TryParseInt(String& input, int& output) {
     return true;
 }
 
+bool StringHelper::TryParseLong(String& input, long& output) {
+    /* check if input is fully numeric (with the exception of a minus at the start), then convert */
+    for(unsigned i=0; i < input.length(); i++) {
+        char c = input.charAt(i);
+        if((c < '0' || c > '9')) {
+            //non-numeric is only okay in the first iteration
+            if(c != '-' || i != 0) {
+                return false;
+            }
+        }
+    }
+    output = input.toInt();
+    return true;
+}
+
 bool StringHelper::IsHexString(String& input) {
     //string length must be even
     if(input.length() % 2 != 0) {

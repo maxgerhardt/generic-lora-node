@@ -19,6 +19,7 @@ public:
     bool askForString(String &&question, String &answer, QuestionFlags flags = RETURN_FALSE_ON_FAILURE, int timeout = TIMEOUT_INFINITE);
     bool askForNumber(String &&question, int &answer, QuestionFlags flags = RETURN_FALSE_ON_FAILURE, int timeout = TIMEOUT_INFINITE);
     bool askForNumberBetween(String &&question, int &answer, int start_inclusive, int end_inclusive, QuestionFlags flags = RETURN_FALSE_ON_FAILURE, int timeout = TIMEOUT_INFINITE);
+    bool askForLongNumber(String &&question, long &answer, QuestionFlags flags = RETURN_FALSE_ON_FAILURE, int timeout = TIMEOUT_INFINITE);
     bool askForHexBytes(String &&question, uint8_t *answer_buf, size_t buf_len, size_t *num_written, bool skip_spaces = false, QuestionFlags flags = RETURN_FALSE_ON_FAILURE, int timeout = TIMEOUT_INFINITE);
     bool askForNHexBytes(String &&question, uint8_t *answer_buf, size_t buf_len, size_t expected_num_bytes, bool skip_spaces = false, QuestionFlags flags = RETURN_FALSE_ON_FAILURE, int timeout = TIMEOUT_INFINITE);
 

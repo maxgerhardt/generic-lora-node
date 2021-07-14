@@ -41,6 +41,7 @@ struct GenericNodeConfig
     /* MAC settings for LoraWAN */
     uint8_t lorawan_rx2_sf;
     bool lorawan_adr_enabled;
+    int devnonce_choice;
 };
 
 class ConfigManager

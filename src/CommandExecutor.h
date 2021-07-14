@@ -57,6 +57,7 @@ private:
     static void HandleFramecounterUp(ArgumentList& args);
     static void HandleFramecounterDown(ArgumentList& args);
     static void HandleSetOpMode(ArgumentList& args);
+    static void HandleSetOTAADevNonce(ArgumentList& args);
 
     static const CommandHandler m_handler_table[];
     static UserInput* m_userinput;

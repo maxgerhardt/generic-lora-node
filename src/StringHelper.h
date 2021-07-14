@@ -12,7 +12,7 @@ public:
     {
         String output = String(value, HEX);
         while(output.length() != 2u*sizeof(T)) {
-            output += "0";
+            output = "0" + output;
         }
         return output;
     }
@@ -24,5 +24,6 @@ public:
     static bool toHexArray(String &str, uint8_t *output_buf, size_t len, size_t *num_written) { return toHexArray(str.c_str(), output_buf, len, num_written); }
     static bool toHexArray(const char *str, uint8_t *output_buf, size_t len, size_t *num_written);
     static bool TryParseInt(String& input, int& output);
+    static bool TryParseLong(String& input, long& output);
     static bool IsHexString(String& input);
 };

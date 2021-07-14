@@ -18,6 +18,7 @@ const CommandHandler CommandExecutor::m_handler_table[] = {
     {"set_activation_method", &CommandExecutor::HandleSetActivationMethod, "Sets the to be used activation method", "(0=None/1=ABP/2=OTAA)"},
     {"set_framecnt_up", &CommandExecutor::HandleFramecounterUp, "Sets the uplink framecounter", "(num)"},
     {"set_framecnt_down", &CommandExecutor::HandleFramecounterDown, "Sets the downlink framecounter", "(num)"},
+    {"set_otaa_devnonce", &CommandExecutor::HandleSetOTAADevNonce, "Sets the OTAA DevNonce used during join", "(-1 for random or constant)"},
     {"join", &CommandExecutor::HandleStartOTAA, "Starts the OTAA join procedure"},
     {"disconnect", &CommandExecutor::HandleDisconnectOTAA, "Disconnects a device that joined via OTAA for re-joining (with different keys)"},
     {"lorawan_send", &CommandExecutor::HandleLoRaWANSend, "Sends a payload via LoRaWAN", "(fport) (data) (conf.)"},
@@ -599,5 +600,26 @@ void CommandExecutor::HandleRepeat(ArgumentList& args) {
         auto* tx = LoRaWANManager::GetLastTX();
         m_userinput->println("Transmission data: " +  StringHelper::toHexString(tx->payload, tx->payload_len) +  " Fport " + String(tx->fport));
         LoRaWANManager::RepeatLast(num_transmissions, delay_seconds);
+    }
+}
+
+void CommandExecutor::HandleSetOTAADevNonce(ArgumentList& args) {
+    int otaa_dev_nonnce = 0; 
+    bool do_save = false;
+    if(args.numArgs != 0 && args.numArgs != 1) {
+        m_userinput->println(F("Command must be called with either 0 or 1 arguments."));
+        return;        
+    }
+    if(args.numArgs == 1) {
+        do_save = StringHelper::TryParseInt(args.arg0, otaa_dev_nonnce);     
+
+    } else if(args.numArgs == 0) { 
+        do_save = m_userinput->askForNumber("Enter the OTAA device nonce to use (-1 for random or constant value)", otaa_dev_nonnce);
+    } 
+    if(do_save) {
+        m_userinput->println("Setting new device nonce choice: " + (otaa_dev_nonnce == -1 ? String("random")  : StringHelper::toFixedLenHexNumber(otaa_dev_nonnce)));
+        cfg.devnonce_choice = otaa_dev_nonnce;
+        ConfigManager::SaveConfig(cfg);
+        ReloadLoRaConfig();
     }
 }
